@@ -1,7 +1,0 @@
-# ipynb_checkpoints
-.ipynb_checkpoints
-.env
-venv/
-.idea
-.venv
-web_scrapping/*.csv
