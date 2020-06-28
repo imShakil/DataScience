@@ -1,0 +1,7 @@
+.idea
+web_scraping/__pycache__/
+venv/
+.venv
+.vs
+.env
+

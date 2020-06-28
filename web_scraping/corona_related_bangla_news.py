@@ -3,7 +3,7 @@ import csv
 import time
 
 headers = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) snap Chromium/83.0.4103.106 Chrome/83.0.4103.106 Safari/537.36"
-training_keywords = ['করোনা', 'কোভিড-১৯', 'উহান-ভাইরাস']  # add keywords here
+training_keywords = {'করোনা', 'কোভিড-১৯', 'উহান-ভাইরাস'}  # add keywords here
 
 
 def store_in_csv(item):
@@ -29,17 +29,17 @@ def print_only_corona_news(links):
         title = link.get_text().strip()
         if news_link is None or len(title) <= 0:
             continue
-        title_words = title.split()
+        title_words = set(title.split())
 
-        if set(training_keywords).intersection(set(title_words)):
+        if training_keywords.intersection(title_words):
             store_in_csv([title, news_link])
             news_count += 1
         else:
             metadata = scrape_url(news_link, headers).find_all('meta')
             for tag in metadata:
                 if 'name' in tag.attrs.keys() and tag.attrs['name'].strip().lower() in ['keywords', 'description']:
-                    sample_keywords = tag.attrs['content'].strip().split()
-                    if set(training_keywords).intersection(set(sample_keywords)):
+                    sample_keywords = set(tag.attrs['content'].strip().split())
+                    if training_keywords.intersection(sample_keywords):
                         news_count += 1
                         # date = find_date_time(scrap_url(news_link, headers))
                         store_in_csv([title, news_link])
